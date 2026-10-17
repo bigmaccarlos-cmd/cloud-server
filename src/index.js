@@ -6,10 +6,14 @@ const serveStatic = require('serve-static');
 const logger = require('./logger');
 const config = require('./config');
 const wss = require('./server');
+const { createZegoToken } = require('./zego-token');
 
 // We serve static files over HTTP
 const serve = serveStatic('public');
-const server = http.createServer(function handler(req, res) {
+const server = http.createServer(function handler(req, res) {const server = http.createServer(function handler(req, res) {
+  const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+
+  
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'no-referrer');
